@@ -30,6 +30,10 @@ public class EGLHepler {
     private EGLContext mEglContext;
     private EGLSurface mEGLSurface;
 
+    public EGLContext getmEglContext() {
+        return mEglContext;
+    }
+
     public void initEGl(Surface surface, EGLContext eglContext){
         /*
              * Get an EGL instance
@@ -85,14 +89,14 @@ public class EGLHepler {
 
         //6、创建EglContext
         if(eglContext !=null) {
-            mEglContext = mEgl.eglCreateContext(mEglDisplay, eglConfig[0], eglContext, null);
+            mEglContext = mEgl.eglCreateContext(mEglDisplay, eglConfig[0], eglContext, attributs);
         } else {
             mEglContext = mEgl.eglCreateContext(mEglDisplay, eglConfig[0], EGL10.EGL_NO_CONTEXT, attributs);
 
         }
 
 //        7、创建渲染的Surface
-         mEGLSurface = mEgl.eglCreateWindowSurface(mEglDisplay,eglConfig[0],surface,null);
+         mEGLSurface = mEgl.eglCreateWindowSurface(mEglDisplay,eglConfig[0],surface,attributs);
 
         //8、绑定EglContext和Surface到显示设备中
         if(!mEgl.eglMakeCurrent(mEglDisplay,mEGLSurface,mEGLSurface,mEglContext)){
