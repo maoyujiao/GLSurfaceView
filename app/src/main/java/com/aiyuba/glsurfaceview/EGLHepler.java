@@ -1,5 +1,6 @@
 package com.aiyuba.glsurfaceview;
 
+import android.opengl.EGL14;
 import android.view.Surface;
 
 import javax.microedition.khronos.egl.EGL10;
@@ -88,15 +89,20 @@ public class EGLHepler {
         }
 
         //6、创建EglContext
+        int[] attrib_list = {
+                EGL14.EGL_CONTEXT_CLIENT_VERSION, 2,
+                EGL10.EGL_NONE
+        };
+
         if(eglContext !=null) {
-            mEglContext = mEgl.eglCreateContext(mEglDisplay, eglConfig[0], eglContext, attributs);
+            mEglContext = mEgl.eglCreateContext(mEglDisplay, eglConfig[0], eglContext, attrib_list);
         } else {
-            mEglContext = mEgl.eglCreateContext(mEglDisplay, eglConfig[0], EGL10.EGL_NO_CONTEXT, attributs);
+            mEglContext = mEgl.eglCreateContext(mEglDisplay, eglConfig[0], EGL10.EGL_NO_CONTEXT, attrib_list);
 
         }
 
 //        7、创建渲染的Surface
-         mEGLSurface = mEgl.eglCreateWindowSurface(mEglDisplay,eglConfig[0],surface,attributs);
+         mEGLSurface = mEgl.eglCreateWindowSurface(mEglDisplay,eglConfig[0],surface,null);
 
         //8、绑定EglContext和Surface到显示设备中
         if(!mEgl.eglMakeCurrent(mEglDisplay,mEGLSurface,mEGLSurface,mEglContext)){

@@ -14,6 +14,21 @@ import javax.microedition.khronos.egl.EGLContext;
 /**
  * Created by maoyujiao on 2019/12/19.
  * 自定义GLSurfaceView
+ * GLThread：OpenGL ES的运行线程。包含创建EGL环境、调用GLRender的onSurfaceCreated、onSurfaceChanged和onDrawFrame方法以及生命周期的管理。
+
+ EglHelper：负责创建EGL环境。
+
+ GLSurfaceView：负责提供Surface和状态改变
+
+ 步骤：
+ 1、继成SurfaceView，并实现其CallBack回调
+
+ 2、自定义GLThread线程类，主要用于OpenGL的绘制操作
+
+ 3、添加设置Surface和EglContext的方法
+
+ 4、提供和系统GLSurfaceView相同的调用方法
+
  */
 
 public class WlEglGLSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
