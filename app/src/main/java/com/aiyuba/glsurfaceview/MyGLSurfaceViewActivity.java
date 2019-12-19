@@ -29,6 +29,6 @@ public class MyGLSurfaceViewActivity extends AppCompatActivity {
                 GLES20.glClearColor(0,1,1,0);
             }
         });
-        eglGLSurfaceView.setRendermode(WlEglGLSurfaceView.RENDERMODE_CONTINUOUSLY);
+        eglGLSurfaceView.setRendermode(WlEglGLSurfaceView.RENDERMODE_WHEN_DIRTY);
     }
 }

@@ -133,28 +133,31 @@ public class WlEglGLSurfaceView extends SurfaceView implements SurfaceHolder.Cal
                     release();
                 }
 
-                if (surfaceView.mRenderMode == RENDERMODE_WHEN_DIRTY) {
-                    synchronized (object){
+                if(isStart) {
+                    if (surfaceView.mRenderMode == RENDERMODE_WHEN_DIRTY) {
+                        synchronized (object) {
+                            try {
+                                object.wait();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                    } else if (surfaceView.mRenderMode == RENDERMODE_CONTINUOUSLY) {
                         try {
-                            object.wait();
+                            Thread.sleep(1000 / 60);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
+                    } else {
+                        throw new RuntimeException("render mode参数异常");
                     }
-
-                } else if(surfaceView.mRenderMode == RENDERMODE_CONTINUOUSLY){
-                    try {
-                        Thread.sleep(1000 / 60);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    throw new RuntimeException("render mode参数异常");
                 }
 
                 onCreate();
                 onChange(width, height);
                 onDraw();
+                isStart = true;
 
             }
 
@@ -179,6 +182,9 @@ public class WlEglGLSurfaceView extends SurfaceView implements SurfaceHolder.Cal
         private void onDraw() {
             if (surfaceView.mRenderer != null && eglHepler != null) {
                 surfaceView.mRenderer.onDrawFrame();
+                if(!isStart){
+                    surfaceView.mRenderer.onDrawFrame();
+                }
                 eglHepler.swapBuffer();
             }
 
