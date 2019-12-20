@@ -26,6 +26,7 @@ public class OpenTexture2DActivity extends AppCompatActivity {
         setContentView(R.layout.activity_open_texture2_d);
         WlEglGLSurfaceView eglGLSurfaceView = findViewById(R.id.egl_surfaceView);
 //        eglGLSurfaceView.setRender(new TextureRender(this));
-        eglGLSurfaceView.setRender(new VBORender(this));
+//        eglGLSurfaceView.setRender(new VBORender(this));
+        eglGLSurfaceView.setRender(new FBOVBORender(this));
     }
 }

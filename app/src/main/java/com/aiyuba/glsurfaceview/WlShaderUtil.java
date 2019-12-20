@@ -1,8 +1,11 @@
 package com.aiyuba.glsurfaceview;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Shader;
 import android.opengl.GLES20;
+import android.opengl.GLUtils;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -91,6 +94,17 @@ public class WlShaderUtil {
             }
         }
         return progrgam;
+    }
+
+    public static int loadTexture(Context context,int src){
+        int[] textureid = new int[1];
+        GLES20.glGenTextures(1,textureid,0);
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,textureid[0]);
+        GLES20.glActiveTexture(textureid[0]);
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(),src);
+        GLUtils.texImage2D(GLES20.GL_TEXTURE_2D,0,bitmap,0);
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,0);
+        return textureid[0];
     }
 
 }
