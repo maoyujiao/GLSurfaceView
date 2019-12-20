@@ -37,7 +37,7 @@ public class WlEglGLSurfaceView extends SurfaceView implements SurfaceHolder.Cal
     private GLThread mGLThread;
     private EGLContext mEGLContext;
     private Surface surface;
-    private int mRenderMode;
+    private int mRenderMode = RENDERMODE_CONTINUOUSLY;
     public final static int RENDERMODE_WHEN_DIRTY = 0;
     public final static int RENDERMODE_CONTINUOUSLY = 1;
 
@@ -63,6 +63,9 @@ public class WlEglGLSurfaceView extends SurfaceView implements SurfaceHolder.Cal
     }
 
     public void setRendermode(int rendermode) {
+        if(mRenderer == null){
+            throw new RuntimeException("请先设置Render，然后设置rendermode");
+        }
         mRenderMode = rendermode;
     }
 
@@ -180,9 +183,9 @@ public class WlEglGLSurfaceView extends SurfaceView implements SurfaceHolder.Cal
         }
 
         private void onCreate() {
-            if (!isCreate && surfaceView.mRenderer != null) {
+            if (isCreate && surfaceView.mRenderer != null) {
                 surfaceView.mRenderer.onSurfaceCreated();
-                isCreate = true;
+                isCreate = false;
             }
 
         }

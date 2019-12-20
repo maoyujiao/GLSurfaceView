@@ -52,7 +52,7 @@ public class TextureRender implements WlEglGLSurfaceView.Renderer {
     private int vPosition;
     private int fPosition;
     //顶点坐标系
-    private float[] vertexValue = new float[]{
+    private float[] vertexData = new float[]{
             -1,-1,
             1,-1,
             -1,1,
@@ -60,7 +60,7 @@ public class TextureRender implements WlEglGLSurfaceView.Renderer {
     };
 
     //纹理坐标系
-    private float[] fragmentValue = new float[]{
+    private float[] fragmentData = new float[]{
             0,1,
             1,1,
             0,0,
@@ -75,16 +75,16 @@ public class TextureRender implements WlEglGLSurfaceView.Renderer {
 
     public TextureRender(Context context) {
         mContext = context;
-        vertexBuffer = ByteBuffer.allocateDirect(vertexValue.length * 4)
+        vertexBuffer = ByteBuffer.allocateDirect(vertexData.length * 4)
                 .order(ByteOrder.nativeOrder())
                 .asFloatBuffer()
-                .put(vertexValue);
+                .put(vertexData);
         vertexBuffer.position(0);
 
-        fragmentBuffer = ByteBuffer.allocateDirect(fragmentValue.length * 4)
+        fragmentBuffer = ByteBuffer.allocateDirect(fragmentData.length * 4)
                 .order(ByteOrder.nativeOrder())
                 .asFloatBuffer()
-                .put(fragmentValue);
+                .put(fragmentData);
         fragmentBuffer.position(0);
 
     }
