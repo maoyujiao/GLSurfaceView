@@ -120,7 +120,7 @@ public class WlEglGLSurfaceView extends SurfaceView implements SurfaceHolder.Cal
     }
 
     public static class GLThread extends Thread {
-        private WlEglGLSurfaceView surfaceView;
+        private WeakReference<WlEglGLSurfaceView> weakReference;
         private EGLHepler eglHepler;
 
         private Object object = null;
@@ -134,7 +134,7 @@ public class WlEglGLSurfaceView extends SurfaceView implements SurfaceHolder.Cal
         private int height;
 
         public GLThread(WeakReference<WlEglGLSurfaceView> mThisWeakRef) {
-            surfaceView = mThisWeakRef.get();
+            weakReference = mThisWeakRef;
         }
 
         @Override
@@ -144,7 +144,7 @@ public class WlEglGLSurfaceView extends SurfaceView implements SurfaceHolder.Cal
             isStart = false;
             object = new Object();
             eglHepler = new EGLHepler();
-            eglHepler.initEGl(surfaceView.getHolder().getSurface(), surfaceView.mEGLContext);
+            eglHepler.initEGl(weakReference.get().getHolder().getSurface(), weakReference.get().mEGLContext);
 
             while (true) {
                 if (isExit) {
@@ -152,7 +152,7 @@ public class WlEglGLSurfaceView extends SurfaceView implements SurfaceHolder.Cal
                 }
 
                 if(isStart) {
-                    if (surfaceView.mRenderMode == RENDERMODE_WHEN_DIRTY) {
+                    if (weakReference.get().mRenderMode == RENDERMODE_WHEN_DIRTY) {
                         synchronized (object) {
                             try {
                                 object.wait();
@@ -161,7 +161,7 @@ public class WlEglGLSurfaceView extends SurfaceView implements SurfaceHolder.Cal
                             }
                         }
 
-                    } else if (surfaceView.mRenderMode == RENDERMODE_CONTINUOUSLY) {
+                    } else if (weakReference.get().mRenderMode == RENDERMODE_CONTINUOUSLY) {
                         try {
                             Thread.sleep(1000 / 60);
                         } catch (InterruptedException e) {
@@ -183,25 +183,26 @@ public class WlEglGLSurfaceView extends SurfaceView implements SurfaceHolder.Cal
         }
 
         private void onCreate() {
-            if (isCreate && surfaceView.mRenderer != null) {
-                surfaceView.mRenderer.onSurfaceCreated();
+            if (isCreate && weakReference.get().mRenderer != null) {
+                weakReference.get().mRenderer.onSurfaceCreated();
                 isCreate = false;
             }
 
         }
 
         private void onChange(int with, int height) {
-            if (isChange && surfaceView.mRenderer != null) {
-                surfaceView.mRenderer.onSurfaceChanged(with, height);
+            if (isChange && weakReference.get().mRenderer != null) {
+                weakReference.get().mRenderer.onSurfaceChanged(with, height);
+                isChange = false;
             }
 
         }
 
         private void onDraw() {
-            if (surfaceView.mRenderer != null && eglHepler != null) {
-                surfaceView.mRenderer.onDrawFrame();
+            if (weakReference.get().mRenderer != null && eglHepler != null) {
+                weakReference.get().mRenderer.onDrawFrame();
                 if(!isStart){
-                    surfaceView.mRenderer.onDrawFrame();
+                    weakReference.get().mRenderer.onDrawFrame();
                 }
                 eglHepler.swapBuffer();
             }
@@ -227,7 +228,7 @@ public class WlEglGLSurfaceView extends SurfaceView implements SurfaceHolder.Cal
                 eglHepler.destoryEgl();
                 eglHepler = null;
                 object = null;
-                surfaceView = null;
+                weakReference = null;
             }
         }
 

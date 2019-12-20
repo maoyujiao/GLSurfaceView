@@ -105,7 +105,7 @@ public class FBOVBORender implements WlEglGLSurfaceView.Renderer {
 
 //        3、设置FBO分配内存大小
         GLES20.glTexImage2D(GLES20.GL_TEXTURE_2D,0,GLES20.GL_RGBA,
-                720,1080,0,GLES20.GL_RGBA,GLES20.GL_UNSIGNED_BYTE,null);
+                WlShaderUtil.getDisplayMetric(mContext).widthPixels,WlShaderUtil.getDisplayMetric(mContext).heightPixels,0,GLES20.GL_RGBA,GLES20.GL_UNSIGNED_BYTE,null);
         //把纹理绑定到fbo
         GLES20.glFramebufferTexture2D(GLES20.GL_FRAMEBUFFER,GLES20.GL_COLOR_ATTACHMENT0,GLES20.GL_TEXTURE_2D,textureId,0);
         //检查fbo绑定成功否
@@ -139,6 +139,7 @@ public class FBOVBORender implements WlEglGLSurfaceView.Renderer {
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, vboId);
         GLES20.glEnableVertexAttribArray(vPosition);
         GLES20.glVertexAttribPointer(vPosition,2,GLES20.GL_FLOAT,false,8,0);
+
         GLES20.glEnableVertexAttribArray(fPosition);
         GLES20.glVertexAttribPointer(fPosition,2,GLES20.GL_FLOAT,false,8,vertexData.length * 4);
 

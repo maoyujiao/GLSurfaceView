@@ -34,7 +34,9 @@
                 <!--<category android:name="android.intent.category.LAUNCHER" />-->
             <!--</intent-filter>-->
         </activity>
-        <activity android:name=".OpenTexture2DActivity">
+        <activity android:name=".OpenTexture2DActivity"
+            android:configChanges="orientation"
+            android:theme="@style/AppThemeNoTitle">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

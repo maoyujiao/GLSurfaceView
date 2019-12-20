@@ -6,7 +6,10 @@ import android.graphics.BitmapFactory;
 import android.graphics.Shader;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
+import android.view.WindowManager;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -106,5 +109,13 @@ public class WlShaderUtil {
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,0);
         return textureid[0];
     }
+
+    public static DisplayMetrics getDisplayMetric(Context context){
+        WindowManager windowManager = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        windowManager.getDefaultDisplay().getMetrics(displayMetrics);
+        return displayMetrics;
+    }
+
 
 }
