@@ -35,6 +35,13 @@ import java.nio.FloatBuffer;
  GLES20.glUniformMatrix4fv(umatrix, 1, false, matrix, 0);
 
 
+ Matrix.rotateM(matrix, o, a, x, y, z);
+ a:
+ 正数：逆时针旋转
+ 负数：顺时针旋转
+
+ x、y、z：分别表示相应坐标轴
+
 
  *
 
@@ -165,6 +172,10 @@ public class OrthoMRender implements WlEglGLSurfaceView.Renderer {
             Matrix.orthoM(matrix,0,-width / ((height * 1.0f / bitmapSize[1]) * bitmapSize[0]),
                     width / ((height * 1.0f / bitmapSize[1]) * bitmapSize[0]),-1,1,-1,1);
             Log.e("maoyujiao","right:" + width / ((height * 1.0f / bitmapSize[1]) * bitmapSize[0]));
+        }
+
+        if(width > height) {
+            Matrix.rotateM(matrix, 0, 180, 1, 0, 0);
         }
 
     }

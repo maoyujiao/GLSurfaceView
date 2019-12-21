@@ -74,15 +74,15 @@ public class FBORender {
     //纹理坐标系
     //为什么添加正交矩阵后图片旋转又不正常了呢？
     private float[] fragmentData = new float[]{
-//            0,1,
-//            1,1,
-//            0,0,
-//            1,0
-
-            0,0,
-            1,0,
             0,1,
-            1,1
+            1,1,
+            0,0,
+            1,0
+
+//            0,0,
+//            1,0,
+//            0,1,
+//            1,1
 
     };
     private int sampler;
