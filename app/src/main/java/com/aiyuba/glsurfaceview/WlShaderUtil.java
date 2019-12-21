@@ -117,5 +117,16 @@ public class WlShaderUtil {
         return displayMetrics;
     }
 
+    public static int[] getBitmapSize(Context context,int resId){
+        int[] size = new int[2];
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeResource(context.getResources(),resId,options);
+        size[0] = options.outWidth;
+        size[1] = options.outHeight;
+//        options.inJustDecodeBounds = false;
+        return size;
+    }
+
 
 }
