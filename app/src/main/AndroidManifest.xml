@@ -28,20 +28,31 @@
             <!-- </intent-filter> -->
         </activity>
         <activity android:name=".MyGLSurfaceViewActivity">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity
+            android:name=".OpenTexture2DActivity"
+            android:configChanges="orientation"
+            android:theme="@style/AppThemeNoTitle">
             <!--<intent-filter>-->
                 <!--<action android:name="android.intent.action.MAIN" />-->
 
                 <!--<category android:name="android.intent.category.LAUNCHER" />-->
             <!--</intent-filter>-->
         </activity>
-        <activity android:name=".OpenTexture2DActivity"
-            android:configChanges="orientation"
-            android:theme="@style/AppThemeNoTitle">
+        <activity android:name=".MulitysurfaceOneTextureActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
     </application>
 
