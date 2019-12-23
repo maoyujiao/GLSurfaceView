@@ -24,7 +24,12 @@ public class MulitySurfaceRender implements WlEglGLSurfaceView.Renderer {
             -1,-1,
             1,-1,
             -1,1,
-            1,1
+            1,1,
+            -0.25f,-0,25f,
+            0.25f,-0,25f,
+            -0.25f,0,25f,
+            0.25f,0,25f,
+
     };
 
     //纹理坐标系
@@ -41,6 +46,7 @@ public class MulitySurfaceRender implements WlEglGLSurfaceView.Renderer {
     private FloatBuffer fragmentBuffer;
     private int vboId;
     private int index;
+    private int migTextureId;
 
 
     public MulitySurfaceRender(Context context) {
@@ -94,6 +100,7 @@ public class MulitySurfaceRender implements WlEglGLSurfaceView.Renderer {
         GLES20.glBufferSubData(GLES20.GL_ARRAY_BUFFER,vertexData.length * 4,fragmentData.length * 4,fragmentBuffer);
         //解绑vbo
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER,0);
+        migTextureId = WlShaderUtil.loadTexture(mContext,R.drawable.ic_girl);
 
     }
 
@@ -119,8 +126,20 @@ public class MulitySurfaceRender implements WlEglGLSurfaceView.Renderer {
         GLES20.glVertexAttribPointer(fPosition,2,GLES20.GL_FLOAT,false,8,vertexData.length * 4);
 
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP,0,4);
+
+
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,migTextureId);
+        GLES20.glEnableVertexAttribArray(vPosition);
+        GLES20.glVertexAttribPointer(vPosition,2,GLES20.GL_FLOAT,false,8,32);
+
+        GLES20.glEnableVertexAttribArray(fPosition);
+        GLES20.glVertexAttribPointer(fPosition,2,GLES20.GL_FLOAT,false,8,vertexData.length * 4);
+
+        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP,0,4);
+
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,0);
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER,0);
+
 
     }
 }
